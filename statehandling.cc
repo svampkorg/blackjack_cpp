@@ -78,7 +78,7 @@ void State::bet() {
 
     keep_asking = false;
     player_bet = amount;
-    player_wallet -= amount;
+    player_wallet = player_wallet - player_bet;
   }
 }
 
@@ -122,7 +122,7 @@ void State::draw_logo() {
   lock_guard<recursive_mutex> lock(mtx);
   clear_console();
   cout << Art::logo;
-  cout << "Player wallet: " << player_wallet << endl;
+  cout << "Player wallet: $" << player_wallet << endl;
 }
 
 void State::clear_console() {

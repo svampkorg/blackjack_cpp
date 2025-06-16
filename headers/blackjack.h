@@ -9,7 +9,6 @@ public:
 
 private:
   State state;
-  void game_loop();
 };
 
 #endif

@@ -1,35 +1,73 @@
-# Compiler to use
+# Compiler
 CXX = g++
 
-# Compiler flags
-# -Iheaders specifies the directory for header files
-# -Wall enables all warnings
-# -g adds debugging information
-CXXFLAGS = -std=c++17 -Iheaders/ -Wall -g
+# --- Common compiler flags for both builds ---
+# -Iheaders [the directory for header files]
+# -Wall [enables all warnings]
+CXXFLAGS_COMMON = -std=c++17 -Iheaders/ -Wall
 
-# The name of your final executable
-TARGET = blackjack
+# --- Debug specific flags ---
+# -g [adds debugging information]
+CXXFLAGS_DEBUG = -g
 
-# List of all your .cc source files
-SOURCES = art.cc arthandling.cc blackjack.cc blackjacktypes.cc helpers.cc statehandling.cc main.cc
+# --- Release specific flags ---
+# -O3 [a high level of optimization]
+# -DNDEBUG [defines the NDEBUG macro which disables asserts debug prints]
+CXXFLAGS_RELEASE = -O3 -DNDEBUG
 
-# Replaces the .cc extension with .o to create a list of object files
+# name of executables
+TARGET = blackjack-debug
+TARGET_RELEASE = blackjack
+
+# List of all .cc source files
+SOURCES = $(wildcard src/*.cc)
+
+# List of object files for debug build
 OBJECTS = $(SOURCES:.cc=.o)
+# List of object files for release build
+OBJECTS_RELEASE = $(addprefix obj/release/, $(SOURCES:.cc=.o))
 
-# The default rule, which is run when you just type 'make'
-# It depends on the target executable
+.PHONY: all release clean clean-release clean-all
+
+# Default rule. is ran when typing just 'make'
 all: $(TARGET)
 
-# Rule to link all the object files into the final executable
+# --- Rules for the Debug Build ---
 $(TARGET): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJECTS)
+	@echo "Linking debug build..."
+	$(CXX) $(CXXFLAGS_COMMON) $(CXXFLAGS_DEBUG) -o $(TARGET) $(OBJECTS)
 
-# Rule to compile a .cc file into a .o object file
-# The $< represents the prerequisite (the .cc file) and $@ represents the target (the .o file)
 %.o: %.cc
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	@echo "Compiling $< for debug..."
+	$(CXX) $(CXXFLAGS_COMMON) $(CXXFLAGS_DEBUG) -c $< -o $@
 
-# Rule to clean up the project directory
-# Removes all object files and the final executable
+
+# --- Rules for the Release Build ---
+# To build the release version, you will run 'make release'
+release: $(TARGET_RELEASE)
+
+$(TARGET_RELEASE): $(OBJECTS_RELEASE)
+	@echo "Linking release build..."
+	$(CXX) $(CXXFLAGS_COMMON) $(CXXFLAGS_RELEASE) -o $(TARGET_RELEASE) $(OBJECTS_RELEASE)
+
+# New rule specifically for release objects.
+# It compiles sources and places the .o files into the 'obj/release' directory.
+obj/release/%.o: %.cc
+	@echo "Compiling $< for release..."
+	@mkdir -p $(@D) # Create the directory if it doesn't exist
+	$(CXX) $(CXXFLAGS_COMMON) $(CXXFLAGS_RELEASE) -c $< -o $@
+
+
+# --- Clean Rules ---
+# The default 'clean' removes debug build files.
 clean:
+	@echo "Cleaning debug files..."
 	rm -f $(OBJECTS) $(TARGET)
+
+# A new 'clean-release' for the release files.
+clean-release:
+	@echo "Cleaning release files..."
+	rm -rf obj $(TARGET_RELEASE)
+
+# A rule to clean everything
+clean-all: clean clean-release

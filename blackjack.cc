@@ -1,26 +1,13 @@
 #include "headers/blackjack.h"
 #include "headers/blackjacktypes.h"
+#include "headers/debug.h"
 #include "headers/helpers.h"
 #include <sstream>
 
 void Blackjack::run() {
-  State state = State();
-
-  game_loop();
-
-  if (state.player_wallet > 25) {
-
-    cout << "You've earned $" << state.player_wallet - 25
-         << ". Congratulations! Bye!" << endl;
-  } else {
-
-    cout << "You've lost $" << 25 - state.player_wallet
-         << ". Very unfortunate. Bye!" << endl;
-  }
-}
-
-void Blackjack::game_loop() {
   bool is_play_again = true;
+
+  DEBUG_PRINT("Your wallet: $" << state.player_wallet << endl);
 
   while (is_play_again) {
     state.shuffle();
@@ -64,6 +51,8 @@ void Blackjack::game_loop() {
     state.maybe_payout();
     state.draw_board(false);
 
+    DEBUG_PRINT("Your wallet: $" << state.player_wallet << endl);
+
     Helpers::print_standing(state.get_standing());
 
     if (state.player_wallet <= 0) {
@@ -80,11 +69,22 @@ void Blackjack::game_loop() {
         is_play_again = false;
         continue;
       }
+
       is_play_again = true;
     }
   }
 
-  if (state.player_wallet <= 0) {
+  DEBUG_PRINT("Your wallet: $" << state.player_wallet << endl);
+
+  if (state.player_wallet == 0) {
     cout << "Game's Over! You have nothing left to bet with." << endl;
+  } else if (state.player_wallet == 25) {
+    cout << "You are break even. Lucky you!" << endl << "Bye!" << endl;
+  } else if (state.player_wallet > 25) {
+    cout << "You've earned $" << state.player_wallet - 25
+         << ". Congratulations! Bye!" << endl;
+  } else if (state.player_wallet < 25) {
+    cout << "You've lost $" << 25 - state.player_wallet
+         << ". Very unfortunate. Bye!" << endl;
   }
 }
