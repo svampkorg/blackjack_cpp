@@ -69,8 +69,8 @@ string ArtHandling::cards_to_art(vector<optional<Card>> cards) {
   const int nr_of_cards = cards_arts.size();
   string art_string;
 
-  for (int art_index; art_index < full_art_length; ++art_index) {
-    for (int card_index; card_index < nr_of_cards; ++card_index) {
+  for (int art_index = 0; art_index < full_art_length; ++art_index) {
+    for (int card_index = 0; card_index < nr_of_cards; ++card_index) {
       art_string.append(cards_arts[card_index][art_index]);
     }
 

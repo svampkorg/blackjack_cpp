@@ -6,6 +6,11 @@
 #include <optional>
 #include <random>
 #include <tuple>
+#include <cstdlib>
+#include <exception>
+#include <iterator>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -14,7 +19,7 @@ public:
   Deck currently_dealt;
   Hand player_hand;
   Hand dealer_hand;
-  int player_wallet;
+  int player_wallet = 25;
   int player_bet;
 
   void shuffle();
@@ -33,6 +38,7 @@ public:
   bool player_has_won();
   optional<Card> random_card_from(const Deck& available_cards);
   Deck available_deck(const Deck& currently_dealt);
+  Deck add_card_to_deck(const Deck& current_deck, const Card& card);
   tuple<vector<optional<Card>>, Deck>
   deal_cards(const Deck& available_cards, const Deck& dealt_cards, int nr_to_deal);
 private:

@@ -2,7 +2,7 @@
 #define BLACKJACK_TYPES_H
 
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <optional>
 #include <string>
 #include <vector>
@@ -30,9 +30,9 @@ struct Card {
 ostream& operator<<(ostream& os, const Card& card);
 
 using Hand = vector<optional<Card>>;
-using Deck = map<string, vector<int>>;
+using Deck = unordered_map<string, vector<int>>;
 using DealData = tuple<vector<optional<Card>>, Deck>;
 
-extern const Deck deck;
+extern const Deck master_deck;
 
 #endif

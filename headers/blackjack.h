@@ -1,4 +1,15 @@
 #ifndef BLACKJACK_H
 #define BLACKJACK_H
-// TODO: blackjack
+
+#include "statehandling.h"
+
+class Blackjack {
+public:
+  void run();
+
+private:
+  State state;
+  void game_loop();
+};
+
 #endif
