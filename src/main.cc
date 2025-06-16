@@ -1,5 +1,5 @@
 
-#include "headers/blackjack.h"
+#include "../headers/blackjack.h"
 
 int main() {
   auto blackjack_game = Blackjack();

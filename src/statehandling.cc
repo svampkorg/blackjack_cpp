@@ -1,8 +1,8 @@
-#include "headers/statehandling.h"
-#include "headers/art.h"
-#include "headers/arthandling.h"
-#include "headers/blackjacktypes.h"
-#include "headers/helpers.h"
+#include "../headers/statehandling.h"
+#include "../headers/art.h"
+#include "../headers/arthandling.h"
+#include "../headers/blackjacktypes.h"
+#include "../headers/helpers.h"
 
 void State::shuffle() {
   currently_dealt = {};

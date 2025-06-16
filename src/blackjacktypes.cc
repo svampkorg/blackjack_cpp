@@ -1,4 +1,4 @@
-#include "headers/blackjacktypes.h"
+#include "../headers/blackjacktypes.h"
 
 using namespace std;
 

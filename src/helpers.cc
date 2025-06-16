@@ -1,5 +1,5 @@
-#include "headers/helpers.h"
-#include "headers/blackjacktypes.h"
+#include "../headers/helpers.h"
+#include "../headers/blackjacktypes.h"
 #include <iostream>
 
 int Helpers::get_hand_value(Hand hand) {

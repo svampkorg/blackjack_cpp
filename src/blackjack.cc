@@ -1,7 +1,7 @@
-#include "headers/blackjack.h"
-#include "headers/blackjacktypes.h"
-#include "headers/debug.h"
-#include "headers/helpers.h"
+#include "../headers/blackjack.h"
+#include "../headers/blackjacktypes.h"
+#include "../headers/debug.h"
+#include "../headers/helpers.h"
 #include <sstream>
 
 void Blackjack::run() {
